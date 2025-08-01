@@ -19,13 +19,17 @@ export default {
           one:   { pl: "mówią",        ru: "они говорят (жен.)" }
         },
         past: {
-          ja:    { pl: "mówiłem / mówiłam",         ru: "я говорил / я говорила" },
-          ty:    { pl: "mówiłeś / mówiłaś",         ru: "ты говорил / ты говорила" },
+          ja_m: { pl: "mówiłem", ru: "я говорил" },
+          ja_f: { pl: "mówiłam", ru: "я говорила" },
+          ty_m: { pl: "mówiłeś", ru: "ты говорил" },
+          ty_f: { pl: "mówiłaś", ru: "ты говорила" },
           on:    { pl: "mówił",                     ru: "он говорил" },
           ona:   { pl: "mówiła",                    ru: "она говорила" },
           ono:   { pl: "mówiło",                    ru: "оно говорило" },
-          my:    { pl: "mówiliśmy / mówiłyśmy",     ru: "мы говорили (муж./жен.)" },
-          wy:    { pl: "mówiliście / mówiłyście",   ru: "вы говорили (муж./жен.)" },
+          my_m: { pl: "mówiliśmy", ru: "мы говорили (муж.)" },
+          my_f: { pl: "mówiłyśmy", ru: "мы говорили (жен.)" },
+          wy_m: { pl: "mówiliście", ru: "вы говорили (муж.)" },
+          wy_f: { pl: "mówiłyście", ru: "вы говорили (жен.)" },
           oni:   { pl: "mówili",                    ru: "они говорили (муж.)" },
           one:   { pl: "mówiły",                    ru: "они говорили (жен.)" }
         },
@@ -58,13 +62,17 @@ export default {
           one:   { pl: "pytają",       ru: "они спрашивают (жен.)" }
         },
         past: {
-          ja:    { pl: "pytałem / pytałam",         ru: "я спрашивал / я спрашивала" },
-          ty:    { pl: "pytałeś / pytałaś",         ru: "ты спрашивал / ты спрашивала" },
+          ja_m: { pl: "pytałem", ru: "я спрашивал" },
+          ja_f: { pl: "pytałam", ru: "я спрашивала" },
+          ty_m: { pl: "pytałeś", ru: "ты спрашивал" },
+          ty_f: { pl: "pytałaś", ru: "ты спрашивала" },
           on:    { pl: "pytał",                     ru: "он спрашивал" },
           ona:   { pl: "pytała",                    ru: "она спрашивала" },
           ono:   { pl: "pytało",                    ru: "оно спрашивало" },
-          my:    { pl: "pytaliśmy / pytałyśmy",     ru: "мы спрашивали (муж./жен.)" },
-          wy:    { pl: "pytaliście / pytałyście",   ru: "вы спрашивали (муж./жен.)" },
+          my_m: { pl: "pytaliśmy", ru: "мы спрашивали (муж.)" },
+          my_f: { pl: "pytałyśmy", ru: "мы спрашивали (жен.)" },
+          wy_m: { pl: "pytaliście", ru: "вы спрашивали (муж.)" },
+          wy_f: { pl: "pytałyście", ru: "вы спрашивали (жен.)" },
           oni:   { pl: "pytali",                    ru: "они спрашивали (муж.)" },
           one:   { pl: "pytały",                    ru: "они спрашивали (жен.)" }
         },

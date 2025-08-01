@@ -1,8 +1,53 @@
-import sets from './sets/index.js';
+import rawSets from './sets/index.js';
+
+function expandForms(forms) {
+  const res = {};
+  for (const time of Object.keys(forms)) {
+    const t = forms[time];
+    const newT = {};
+    for (const person of Object.keys(t)) {
+      const f = t[person];
+      if (['ja', 'ty', 'my', 'wy'].includes(person)) {
+        const plParts = f.pl.split('/').map(s => s.trim());
+        const ruParts = f.ru.split('/').map(s => s.trim());
+        const hasTwo = plParts.length > 1;
+
+        const ruMale = ruParts.length > 1
+          ? ruParts[0]
+          : f.ru.replace('муж./жен.', 'муж.') + (ruParts.length === 1 && !f.ru.includes('муж./жен.') ? ' (муж.)' : '');
+        const ruFem = ruParts.length > 1
+          ? ruParts[1]
+          : f.ru.replace('муж./жен.', 'жен.') + (ruParts.length === 1 && !f.ru.includes('муж./жен.') ? ' (жен.)' : '');
+
+        const plMale = hasTwo ? plParts[0] : plParts[0];
+        const plFem = hasTwo ? plParts[1] : plParts[0];
+        newT[person + '_m'] = { pl: plMale, ru: ruMale };
+        newT[person + '_f'] = { pl: plFem, ru: ruFem };
+      } else {
+        newT[person] = f;
+      }
+    }
+    res[time] = newT;
+  }
+  return res;
+}
+
+const sets = rawSets.map(set => ({
+  ...set,
+  verbs: set.verbs.map(v => ({
+    ...v,
+    forms: expandForms(v.forms)
+  }))
+}));
 
 const TIMES = ['present', 'past', 'future'];
 const PERSONS = [
-  'ja', 'ty', 'on', 'ona', 'ono', 'my', 'wy', 'oni', 'one'
+  'ja_m', 'ja_f',
+  'ty_m', 'ty_f',
+  'on', 'ona', 'ono',
+  'my_m', 'my_f',
+  'wy_m', 'wy_f',
+  'oni', 'one'
 ];
 
 const timeLabels = {
@@ -12,25 +57,33 @@ const timeLabels = {
 };
 
 const personLabels = {
-  ja: 'я',
-  ty: 'ты',
+  ja_m: 'я (муж.)',
+  ja_f: 'я (жен.)',
+  ty_m: 'ты (муж.)',
+  ty_f: 'ты (жен.)',
   on: 'он',
   ona: 'она',
   ono: 'оно',
-  my: 'мы',
-  wy: 'вы',
+  my_m: 'мы (муж.)',
+  my_f: 'мы (жен.)',
+  wy_m: 'вы (муж.)',
+  wy_f: 'вы (жен.)',
   oni: 'они (муж.)',
   one: 'они (жен.)'
 };
 
 const pronounPlLabels = {
-  ja: 'ja',
-  ty: 'ty',
+  ja_m: 'ja',
+  ja_f: 'ja',
+  ty_m: 'ty',
+  ty_f: 'ty',
   on: 'on',
   ona: 'ona',
   ono: 'ono',
-  my: 'my',
-  wy: 'wy',
+  my_m: 'my',
+  my_f: 'my',
+  wy_m: 'wy',
+  wy_f: 'wy',
   oni: 'oni',
   one: 'one'
 };

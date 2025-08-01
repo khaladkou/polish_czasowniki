@@ -19,13 +19,17 @@ export default {
           one:   { pl: "są",            ru: "они (жен.) есть" }
         },
         past: {
-          ja:    { pl: "byłem / byłam",         ru: "я был / я была" },
-          ty:    { pl: "byłeś / byłaś",         ru: "ты был / ты была" },
+          ja_m: { pl: "byłem", ru: "я был" },
+          ja_f: { pl: "byłam", ru: "я была" },
+          ty_m: { pl: "byłeś", ru: "ты был" },
+          ty_f: { pl: "byłaś", ru: "ты была" },
           on:    { pl: "był",                   ru: "он был" },
           ona:   { pl: "była",                  ru: "она была" },
           ono:   { pl: "było",                  ru: "оно было" },
-          my:    { pl: "byliśmy / byłyśmy",     ru: "мы были (муж./жен.)" },
-          wy:    { pl: "byliście / byłyście",   ru: "вы были (муж./жен.)" },
+          my_m: { pl: "byliśmy", ru: "мы были (муж.)" },
+          my_f: { pl: "byłyśmy", ru: "мы были (жен.)" },
+          wy_m: { pl: "byliście", ru: "вы были (муж.)" },
+          wy_f: { pl: "byłyście", ru: "вы были (жен.)" },
           oni:   { pl: "byli",                  ru: "они были (муж.)" },
           one:   { pl: "były",                  ru: "они были (жен.)" }
         },
@@ -58,13 +62,17 @@ export default {
           one:   { pl: "robią",        ru: "они делают (жен.)" }
         },
         past: {
-          ja:    { pl: "robiłem / robiłam",       ru: "я делал / я делала" },
-          ty:    { pl: "robiłeś / robiłaś",       ru: "ты делал / ты делала" },
+          ja_m: { pl: "robiłem", ru: "я делал" },
+          ja_f: { pl: "robiłam", ru: "я делала" },
+          ty_m: { pl: "robiłeś", ru: "ты делал" },
+          ty_f: { pl: "robiłaś", ru: "ты делала" },
           on:    { pl: "robił",                   ru: "он делал" },
           ona:   { pl: "robiła",                  ru: "она делала" },
           ono:   { pl: "robiło",                  ru: "оно делало" },
-          my:    { pl: "robiliśmy / robiłyśmy",   ru: "мы делали (муж./жен.)" },
-          wy:    { pl: "robiliście / robiłyście", ru: "вы делали (муж./жен.)" },
+          my_m: { pl: "robiliśmy", ru: "мы делали (муж.)" },
+          my_f: { pl: "robiłyśmy", ru: "мы делали (жен.)" },
+          wy_m: { pl: "robiliście", ru: "вы делали (муж.)" },
+          wy_f: { pl: "robiłyście", ru: "вы делали (жен.)" },
           oni:   { pl: "robili",                  ru: "они делали (муж.)" },
           one:   { pl: "robiły",                  ru: "они делали (жен.)" }
         },
