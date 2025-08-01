@@ -294,8 +294,9 @@ function renderPractice() {
   app.innerHTML = `
     <button id="back">← К подборке</button>
     <h2>Тренировка: ${set.title}</h2>
-    <p><b>${pronounRus} / ${pronounPl}</b>: <span>${formRuNoPronoun}</span></p>
+    <p>Переведите: <b>${pronounRus} ${formRuNoPronoun}</b></p>
     <form id="answer-form" autocomplete="off">
+      <div><b>${pronounPl}</b></div>
       <input id="answer" placeholder="Польский вариант" autofocus
         ${state.lastResult === false ? 'style="border:2px solid red;"' : ''}>
       <button>Проверить</button>
