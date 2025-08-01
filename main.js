@@ -125,7 +125,9 @@ function renderSet() {
       TIMES.forEach(time => {
         PERSONS.forEach(person => {
           const form = verb.forms[time]?.[person];
-          if (form) queue.push({ vi, time, person });
+          if (isValidForm(form)) {
+            queue.push({ vi, time, person });
+          }
         });
       });
     });
@@ -318,6 +320,12 @@ function renderPractice() {
 }
 
 // Вспомогательные функции
+function isValidForm(form) {
+  if (!form) return false;
+  const val = (form.pl || '').trim();
+  return val !== '-' && val !== '—';
+}
+
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
