@@ -7,7 +7,11 @@ import dawacBrac from './czasowniki_dawac_brac.js';
 import jescPic from './czasowniki_jesc_pic.js';
 import pracowacOdpoczywac from './czasowniki_pracowac_odpoczywac.js';
 
-// Добавляй новые подборки ниже в нужном порядке
+// Новые подборки
+import ogladacSzukac from './czasowniki_ogladac_szukac.js';
+import znalezcMieszkac from './czasowniki_znalezc_mieszkac.js';
+import lubicKochac from './czasowniki_lubic_kochac.js';
+import potrzebowacPomagac from './czasowniki_potrzebowac_pomagac.js';
 
 export default [
   bycRobic,
@@ -17,6 +21,9 @@ export default [
   mowicPytac,
   dawacBrac,
   jescPic,
-  pracowacOdpoczywac
-  // другие подборки сюда
+  pracowacOdpoczywac,
+  ogladacSzukac,
+  znalezcMieszkac,
+  lubicKochac,
+  potrzebowacPomagac
 ];
