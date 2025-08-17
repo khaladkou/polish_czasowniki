@@ -1,7 +1,7 @@
 // sets/czasowniki_podstawowe.js
 export default {
   title: "Быть и делать",
-  description: "Глаголы быть и делать во всех временах и местоимениях.",
+  description: "Глаголы быть и делать.",
   verbs: [
     {
       ru: "быть",

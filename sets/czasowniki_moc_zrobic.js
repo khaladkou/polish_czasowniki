@@ -1,7 +1,7 @@
 // sets/czasowniki_moc_zrobic.js
 export default {
   title: "Мочь и сделать",
-  description: "Глаголы мочь (móc) и сделать (zrobić) во всех временах и местоимениях.",
+  description: "Глаголы мочь (móc) и сделать (zrobić).",
   verbs: [
     {
       ru: "мочь",

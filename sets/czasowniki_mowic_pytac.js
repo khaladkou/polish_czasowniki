@@ -1,7 +1,7 @@
 // sets/czasowniki_mowic_pytac.js
 export default {
   title: "Говорить и спрашивать",
-  description: "Глаголы говорить (mówić) и спрашивать (pytać) во всех временах и местоимениях.",
+  description: "Глаголы говорить (mówić) и спрашивать (pytać).",
   verbs: [
     {
       ru: "говорить",

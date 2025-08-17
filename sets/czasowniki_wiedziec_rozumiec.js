@@ -1,7 +1,7 @@
 // sets/czasowniki_wiedziec_rozumiec.js
 export default {
   title: "Знать и понимать",
-  description: "Глаголы знать (wiedzieć) и понимать (rozumieć) во всех временах и местоимениях.",
+  description: "Глаголы знать (wiedzieć) и понимать (rozumieć).",
   verbs: [
     {
       ru: "знать",

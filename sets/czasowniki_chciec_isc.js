@@ -1,7 +1,7 @@
 // sets/czasowniki_chciec_isc.js
 export default {
   title: "Хотеть и идти",
-  description: "Глаголы хотеть (chcieć) и идти (iść) во всех временах и местоимениях.",
+  description: "Глаголы хотеть (chcieć) и идти (iść).",
   verbs: [
     {
       ru: "хотеть",

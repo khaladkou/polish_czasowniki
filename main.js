@@ -67,15 +67,23 @@ function render(){
 function renderMenu(){
   app.innerHTML = `
     <h1>Польские глаголы: тренажёр</h1>
-    <p>Выберите подборку для изучения:</p>
-    <ul>
-      ${sets.map((set, i) => `
-        <li>
-          <a href="#" data-set="${i}" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">${set.title}</a>
-          <span style="color:#64748b">: ${set.description}</span>
-        </li>
-      `).join('')}
-    </ul>
+    <section>
+      <h2>Глаголы во всех временах и местоимениях</h2>
+      <p>Каждый набор включает таблицы и тренажёр со всеми временами и местоимениями.</p>
+      <ul>
+        ${sets.map((set, i) => `
+          <li>
+            <a href="#" data-set="${i}" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">${set.title}</a>
+          </li>
+        `).join('')}
+      </ul>
+    </section>
+    <section>
+      <h2>Карточки</h2>
+      <ul>
+        <li><a href="cards.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские наречия</a></li>
+      </ul>
+    </section>
     <hr />
     <small>Добавьте свои подборки в папку <code>/sets</code> и зарегистрируйте их в <code>sets/index.js</code></small>
   `;

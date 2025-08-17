@@ -1,7 +1,7 @@
 // sets/czasowniki_dawac_brac.js
 export default {
   title: "Давать и брать",
-  description: "Глаголы давать (dawać) и брать (brać) во всех временах и местоимениях.",
+  description: "Глаголы давать (dawać) и брать (brać).",
   verbs: [
     {
       ru: "давать",

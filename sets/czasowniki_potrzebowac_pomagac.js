@@ -1,6 +1,6 @@
 export default {
   title: "Нуждаться и помогать",
-  description: "Глаголы нуждаться (potrzebować) и помогать (pomagać) во всех временах и местоимениях.",
+  description: "Глаголы нуждаться (potrzebować) и помогать (pomagać).",
   verbs: [
     {
       ru: "нуждаться",

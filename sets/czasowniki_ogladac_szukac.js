@@ -1,6 +1,6 @@
 export default {
   title: "Смотреть и искать",
-  description: "Глаголы смотреть (oglądać) и искать (szukać) во всех временах и местоимениях.",
+  description: "Глаголы смотреть (oglądać) и искать (szukać).",
   verbs: [
     {
       ru: "смотреть",

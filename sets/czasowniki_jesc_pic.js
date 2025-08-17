@@ -1,7 +1,7 @@
 // sets/czasowniki_jesc_pic.js
 export default {
   title: "Есть и пить",
-  description: "Глаголы есть (jeść) и пить (pić) во всех временах и местоимениях.",
+  description: "Глаголы есть (jeść) и пить (pić).",
   verbs: [
     {
       ru: "есть",

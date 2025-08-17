@@ -1,7 +1,7 @@
 // sets/czasowniki_pracowac_odpoczywac.js
 export default {
   title: "Работать и отдыхать",
-  description: "Глаголы работать (pracować) и отдыхать (odpoczywać) во всех временах и местоимениях.",
+  description: "Глаголы работать (pracować) и отдыхать (odpoczywać).",
   verbs: [
     {
       ru: "работать",

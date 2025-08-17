@@ -1,6 +1,6 @@
 export default {
   title: "Найти и жить",
-  description: "Глаголы найти (znaleźć) и жить (mieszkać) во всех временах и местоимениях.",
+  description: "Глаголы найти (znaleźć) и жить (mieszkać).",
   verbs: [
     {
       ru: "найти",
