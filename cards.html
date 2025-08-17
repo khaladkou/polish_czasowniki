@@ -74,6 +74,20 @@
   .seg button { background: var(--ghost); border-radius: 0; }
   .seg button + button { border-left: 1px solid rgba(255,255,255,0.08); }
 
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: none;
+    z-index: 1000;
+  }
+
   footer { color: var(--muted); font-size: var(--fs-micro); text-align: center; padding: 6px; }
   @media (min-width: 700px) {
     .controls { grid-template-columns: 1fr 1fr 1fr; }
@@ -135,6 +149,8 @@
 
   <footer>Данные карточек — внизу файла (массив CARDS). Цветовая схема — высококонтрастная, без «жёсткого» белого, для комфортного запоминания.</footer>
 </div>
+
+<div id="toast" class="toast"></div>
 
 <script>
 /** ========================
@@ -295,14 +311,33 @@ function shuffle(){
   render();
 }
 
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => { t.style.display = "none"; }, 2000);
+}
+
+function respond(kind){
+  setVerdict(kind);
+  if(idx >= order.length - 1){
+    idx = 0;
+    side = "front";
+    render();
+    showToast("Список закончен");
+  } else {
+    go(1);
+  }
+}
+
 /** ========================
  *  СВЯЗЬ С UI
  *  ======================== */
 document.getElementById("btnPrev").addEventListener("click", () => go(-1));
 document.getElementById("btnNext").addEventListener("click", () => go(1));
 document.getElementById("card").addEventListener("click", flip);
-document.getElementById("btnKnow").addEventListener("click", () => setVerdict("known"));
-document.getElementById("btnDontKnow").addEventListener("click", () => setVerdict("unknown"));
+document.getElementById("btnKnow").addEventListener("click", () => respond("known"));
+document.getElementById("btnDontKnow").addEventListener("click", () => respond("unknown"));
 document.getElementById("btnReset").addEventListener("click", resetStats);
 document.getElementById("btnShuffle").addEventListener("click", shuffle);
 document.getElementById("toggleBrowse").addEventListener("change", render);
@@ -317,8 +352,8 @@ window.addEventListener("keydown", (e) => {
   if(e.key === "ArrowLeft"){ e.preventDefault(); go(-1); }
   else if(e.key === "ArrowRight"){ e.preventDefault(); go(1); }
   else if(e.key === " "){ e.preventDefault(); flip(); }
-  else if(e.key.toLowerCase() === "k"){ e.preventDefault(); setVerdict("known"); }
-  else if(e.key.toLowerCase() === "n"){ e.preventDefault(); setVerdict("unknown"); }
+  else if(e.key.toLowerCase() === "k"){ e.preventDefault(); respond("known"); }
+  else if(e.key.toLowerCase() === "n"){ e.preventDefault(); respond("unknown"); }
   else if(e.key.toLowerCase() === "r"){ e.preventDefault(); resetStats(); }
 });
 
