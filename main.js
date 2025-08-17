@@ -158,7 +158,9 @@ function renderPractice(){
   const { vi, time, person } = queue[i];
   const verb = set.verbs[vi];
   const form = verb.forms[time][person];
-  const formRuNoPronoun = form.ru.replace(/^(я|ты|он|она|оно|мы|вы|они)(\s|\s*\(.+\)\s*)/i, '').trim();
+  let formRuNoPronoun = form.ru.replace(/^(я|ты|он|она|оно|мы|вы|они)(\s|\s*\(.+\)\s*)/i, '').trim();
+// убрать повторы рода вне местоимения
+formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' ').replace(/\s{2,}/g, ' ').trim();
   const pronounRus = capitalize(personLabels[person] || person);
   const pronounPl  = pronounPlLabels[person] || person;
 
@@ -264,7 +266,9 @@ function renderResults(){
     const form = verb.forms[s.time][s.person];
     const pronounRus = capitalize(personLabels[s.person] || s.person);
     const pronounPl  = pronounPlLabels[s.person] || s.person;
-    const formRuNoPronoun = form.ru.replace(/^(я|ты|он|она|оно|мы|вы|они)(\s|\s*\(.+\)\s*)/i, '').trim();
+    let formRuNoPronoun = form.ru.replace(/^(я|ты|он|она|оно|мы|вы|они)(\s|\s*\(.+\)\s*)/i, '').trim();
+// убрать повторы рода вне местоимения
+formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' ').replace(/\s{2,}/g, ' ').trim();
     return `<tr>
       <td>${pronounRus} / ${pronounPl}</td>
       <td>${timeLabels[s.time]}</td>
