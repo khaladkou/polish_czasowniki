@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Карточки — Польские термины кухни</title>
+<style>
+  :root {
+    --bg: #0e1721;
+    --panel: #132433;
+    --card: #162e40;
+    --text: #f2f7f8;
+    --muted: #a9c1cb;
+    --accent: #45c59f;
+    --danger: #f05d5e;
+    --ghost: #1a3a4d;
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --radius: 16px;
+    --fs-front: 32px;
+    --fs-back: 20px;
+    --fs-micro: 12px;
+    --fs-small: 14px;
+  }
+  html, body {
+    height: 100%; margin: 0;
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 12px 12px 18px; display: grid; gap: 12px; }
+  header {
+    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px;
+    background: var(--panel); padding: 12px 14px; border-radius: var(--radius); box-shadow: var(--shadow);
+  }
+  header .stats { display: flex; gap: 14px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--muted); }
+  header .stats b { color: var(--text); }
+  header .toggles { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-small); user-select: none; cursor: pointer; }
+  .switch input { appearance: none; width: 48px; height: 28px; background: #224a5d; border-radius: 999px; position: relative; outline: none; transition: 0.2s; }
+  .switch input:checked { background: #2e7d5b; }
+  .switch input::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: 0.2s; }
+  .switch input:checked::after { left: 23px; }
+
+  .card {
+    background: radial-gradient(1000px 700px at 60% 40%, var(--card), #0b1e2a 70%);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 28px 18px; min-height: 280px; display: grid; align-content: center; gap: 12px; text-align: center;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+  /* Removed side labels per request */
+  .front { font-size: var(--fs-front); font-weight: 700; line-height: 1.15; word-break: break-word; }
+  .back { font-size: var(--fs-back); line-height: 1.4; white-space: pre-line; word-break: break-word; display:none; }
+  .hint { font-size: var(--fs-small); color: var(--muted); display:none; white-space: pre-line; }
+  .muted { color: var(--muted); font-size: var(--fs-small); }
+  .controls { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row.equal > button { flex: 1 1 0; }
+  button {
+    appearance: none; border: none; border-radius: 14px;
+    padding: 14px 16px; min-height: 48px; min-width: 44px;
+    font-weight: 700; cursor: pointer; box-shadow: var(--shadow);
+    background: #245a73; color: var(--text); transition: transform .06s ease, background .2s ease;
+    touch-action: manipulation;
+  }
+  button:hover { transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+  .primary { background: #2a7f9c; }
+  .success { background: #2e7d5b; }
+  .danger { background: #9b2f2f; }
+  .ghost { background: var(--ghost); }
+  .pill { border-radius: 999px; }
+  .seg { display: inline-flex; border-radius: 999px; overflow: hidden; box-shadow: var(--shadow); }
+  .seg button { background: var(--ghost); border-radius: 0; }
+  .seg button + button { border-left: 1px solid rgba(255,255,255,0.08); }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: none;
+    z-index: 1000;
+  }
+
+  @media (min-width: 700px) {
+    .controls { grid-template-columns: 1fr 1fr 1fr; }
+    .controls > .row:nth-child(1) { grid-column: 1 / -1; } /* arrows row spans full width */
+  }
+  @media (max-width: 820px) {
+    header { grid-template-columns: 1fr; align-items: start; }
+  }
+  @media (max-width: 640px) {
+    .card { min-height: 240px; }
+    .wrap { padding: 8px 8px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="stats">
+      <div>Карточка: <b id="statIndex">—</b> / <b id="statTotal">—</b></div>
+      <div>Знаю: <b id="statKnown">0</b></div>
+      <div>Не знаю: <b id="statUnknown">0</b></div>
+      <div class="muted">Режим: <b id="modeText">Обычный</b></div>
+    </div>
+    <div class="toggles">
+      <label class="switch"><input id="toggleReverse" type="checkbox"><span>Перевод первым</span></label>
+      <label class="switch"><input id="toggleBrowse" type="checkbox"><span>Пролистывание</span></label>
+      <div class="seg" aria-label="Размер шрифта">
+        <button id="fontDec" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
+        <button id="fontReset" title="Сбросить" aria-label="Сбросить размер">A</button>
+        <button id="fontInc" title="Увеличить шрифт" aria-label="Увеличить шрифт">A+</button>
+      </div>
+    </div>
+    <div class="toggles">
+      <button class="ghost pill" id="btnHome" title="На главный экран">← На главную</button>
+      <button class="ghost pill" id="btnShuffle" title="Перемешать карточки">Перемешать</button>
+      <button class="ghost pill" id="btnReset" title="Сбросить оценки">Сброс статистики</button>
+    </div>
+  </header>
+
+  <section class="card" id="card">
+    <!-- Removed side label per request -->
+    <div class="front" id="frontText">—</div>
+    <div class="back" id="backText">—</div>
+    <div class="hint" id="hintText"></div>
+  </section>
+
+  <nav class="controls" aria-label="Управление карточками">
+    <!-- Arrows row: two same-size buttons with icons only -->
+    <div class="row equal">
+      <button id="btnPrev" title="Назад (←)" aria-label="Назад">←</button>
+      <button id="btnNext" title="Вперёд (→)" aria-label="Вперёд">→</button>
+    </div>
+    <!-- Know/Don't know row: equal-sized buttons -->
+    <div class="row equal">
+      <button class="success" id="btnKnow" title="Отметить как Знаю (K)" aria-label="Знаю">Знаю</button>
+      <button class="danger" id="btnDontKnow" title="Отметить как Не знаю (N)" aria-label="Не знаю">Не знаю</button>
+    </div>
+    <div class="row" style="justify-content:center">
+      <span class="muted">Горячие клавиши: ← → навигация, Пробел — flip, K — знаю, N — не знаю, R — сброс</span>
+    </div>
+  </nav>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="flashcards.js"></script>
+<script src="cards/kitchen.js"></script>
+<script src="kitchen.js"></script>
+</body>
+</html>
