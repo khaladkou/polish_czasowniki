@@ -52,6 +52,7 @@
   /* Removed side labels per request */
   .front { font-size: var(--fs-front); font-weight: 700; line-height: 1.15; word-break: break-word; }
   .back { font-size: var(--fs-back); line-height: 1.4; white-space: pre-line; word-break: break-word; display:none; }
+  .hint { font-size: var(--fs-small); color: var(--muted); display:none; white-space: pre-line; }
   .muted { color: var(--muted); font-size: var(--fs-small); }
   .controls { display: grid; grid-template-columns: 1fr; gap: 10px; }
   .row { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -120,6 +121,7 @@
       </div>
     </div>
     <div class="toggles">
+      <button class="ghost pill" id="btnHome" title="На главный экран">← На главную</button>
       <button class="ghost pill" id="btnShuffle" title="Перемешать карточки">Перемешать</button>
       <button class="ghost pill" id="btnReset" title="Сбросить оценки">Сброс статистики</button>
     </div>
@@ -129,6 +131,7 @@
     <!-- Removed side label per request -->
     <div class="front" id="frontText">—</div>
     <div class="back" id="backText">—</div>
+    <div class="hint" id="hintText"></div>
   </section>
 
   <nav class="controls" aria-label="Управление карточками">
