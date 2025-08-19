@@ -88,7 +88,8 @@ function renderMenu(){
     <section>
       <h2>Карточки</h2>
       <ul>
-        <li><a href="cards.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские наречия</a></li>
+         <li><a href="adverbs.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские наречия</a></li>
+        <li><a href="pronouns.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские местоимения</a></li>
       </ul>
     </section>
     <hr />
