@@ -30,12 +30,12 @@
   }
   .wrap { max-width: 960px; margin: 0 auto; padding: 12px 12px 18px; display: grid; gap: 12px; }
   header {
-    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px;
+    display: flex; flex-direction: column; gap: 8px;
     background: var(--panel); padding: 12px 14px; border-radius: var(--radius); box-shadow: var(--shadow);
   }
+  header .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   header .stats { display: flex; gap: 14px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--muted); }
   header .stats b { color: var(--text); }
-  header .toggles { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .switch { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-small); user-select: none; cursor: pointer; }
   .switch input { appearance: none; width: 48px; height: 28px; background: #224a5d; border-radius: 999px; position: relative; outline: none; transition: 0.2s; }
   .switch input:checked { background: #2e7d5b; }
@@ -75,26 +75,37 @@
   .seg button { background: var(--ghost); border-radius: 0; }
   .seg button + button { border-left: 1px solid rgba(255,255,255,0.08); }
 
-  .toast {
+  .modal {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-inner {
     background: var(--panel);
-    color: var(--text);
-    padding: 10px 18px;
+    padding: 20px 24px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    display: none;
-    z-index: 1000;
+    position: relative;
+    text-align: center;
+  }
+  .modal-inner .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
   }
 
   @media (min-width: 700px) {
     .controls { grid-template-columns: 1fr 1fr 1fr; }
     .controls > .row:nth-child(1) { grid-column: 1 / -1; } /* arrows row spans full width */
-  }
-  @media (max-width: 820px) {
-    header { grid-template-columns: 1fr; align-items: start; }
   }
   @media (max-width: 640px) {
     .card { min-height: 240px; }
@@ -105,25 +116,21 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="stats">
-      <div>Карточка: <b id="statIndex">—</b> / <b id="statTotal">—</b></div>
-      <div>Знаю: <b id="statKnown">0</b></div>
-      <div>Не знаю: <b id="statUnknown">0</b></div>
-      <div class="muted">Режим: <b id="modeText">Обычный</b></div>
-    </div>
-    <div class="toggles">
-      <label class="switch"><input id="toggleReverse" type="checkbox"><span>Перевод первым</span></label>
-      <label class="switch"><input id="toggleBrowse" type="checkbox"><span>Пролистывание</span></label>
+    <div class="actions">
+      <button class="ghost pill" id="btnHome" title="На главный экран">🏠</button>
+      <button class="ghost pill" id="btnShuffle" title="Перемешать карточки">🔀</button>
+      <button class="ghost pill" id="btnReset" title="Сбросить оценки">♻️</button>
+      <label class="switch"><input id="toggleReverse" type="checkbox"><span>Обратная сторона</span></label>
       <div class="seg" aria-label="Размер шрифта">
         <button id="fontDec" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
         <button id="fontReset" title="Сбросить" aria-label="Сбросить размер">A</button>
         <button id="fontInc" title="Увеличить шрифт" aria-label="Увеличить шрифт">A+</button>
       </div>
     </div>
-    <div class="toggles">
-      <button class="ghost pill" id="btnHome" title="На главный экран">← На главную</button>
-      <button class="ghost pill" id="btnShuffle" title="Перемешать карточки">Перемешать</button>
-      <button class="ghost pill" id="btnReset" title="Сбросить оценки">Сброс статистики</button>
+    <div class="stats">
+      <div>Карточка: <b id="statIndex">—</b> / <b id="statTotal">—</b></div>
+      <div>Знаю: <b id="statKnown">0</b></div>
+      <div>Не знаю: <b id="statUnknown">0</b></div>
     </div>
   </header>
 
@@ -152,7 +159,16 @@
 
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="summaryModal" class="modal">
+  <div class="modal-inner">
+    <button id="modalClose" class="close" aria-label="Закрыть">×</button>
+    <h2>Список закончен</h2>
+    <p>Всего слов: <b id="modalTotal"></b></p>
+    <p>Знаю: <b id="modalKnown"></b></p>
+    <p>Не знаю: <b id="modalUnknown"></b></p>
+    <p>Время: <b id="modalTime"></b></p>
+  </div>
+</div>
 
 <script src="flashcards.js"></script>
 <script src="cards/pronouns.js"></script>

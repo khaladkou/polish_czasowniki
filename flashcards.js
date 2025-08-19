@@ -7,6 +7,7 @@ let order = CARDS.map((_, i) => i);
 let idx = 0;
 let side = "front";
 const verdict = new Array(CARDS.length).fill(null);
+let startTime = Date.now();
 
 /** ========================
  *  ШРИФТ — управление и сохранение
@@ -48,10 +49,8 @@ function render(){
   const frontText = document.getElementById("frontText");
   const backText = document.getElementById("backText");
   const hintText = document.getElementById("hintText");
-  const modeText = document.getElementById("modeText");
-  const browse = document.getElementById("toggleBrowse").checked;
-  const reverse = document.getElementById("toggleReverse").checked;
-  modeText.textContent = browse ? "Пролистывание" : "Обычный";
+  const reverseEl = document.getElementById("toggleReverse");
+  const reverse = reverseEl && reverseEl.checked;
 
   if(order.length === 0){
     frontText.textContent = "Нет карточек";
@@ -69,22 +68,16 @@ function render(){
   backText.textContent = backContent;
   hintText.textContent = card.hint || "";
 
-  if(browse){
-    backText.style.display = "none";
-    hintText.style.display = "none";
-  } else {
-    backText.style.display = (side === "back") ? "block" : "none";
-    hintText.style.display = "none";
-  }
+  backText.style.display = (side === "back") ? "block" : "none";
+  hintText.style.display = "none";
   recountStats();
 }
 function flip(){
-  if(document.getElementById("toggleBrowse").checked) return;
   side = (side === "front") ? "back" : "front";
   const backText = document.getElementById("backText");
   const hintText = document.getElementById("hintText");
   const card = CARDS[ order[idx] ];
-  if(side === "back"){ 
+  if(side === "back"){
     backText.style.display = "block";
     if(card.hint) hintText.style.display = "block"; else hintText.style.display = "none";
   }
@@ -104,6 +97,7 @@ function setVerdict(kind){
 function resetStats(){
   for(let i=0;i<verdict.length;i++) verdict[i] = null;
   recountStats();
+  startTime = Date.now();
 }
 function shuffle(){
   for(let i = order.length - 1; i > 0; i--){
@@ -112,13 +106,29 @@ function shuffle(){
   }
   idx = 0; side = "front";
   render();
+  startTime = Date.now();
 }
 
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.style.display = "block";
-  setTimeout(() => { t.style.display = "none"; }, 2000);
+function formatTime(ms){
+  const total = Math.floor(ms/1000);
+  const h = Math.floor(total/3600);
+  const m = Math.floor((total%3600)/60);
+  const s = total%60;
+  const parts = [];
+  if(h>0) parts.push(String(h).padStart(2,'0'));
+  parts.push(String(m).padStart(2,'0'));
+  parts.push(String(s).padStart(2,'0'));
+  return parts.join(':');
+}
+function showSummary(total, known, unknown, ms){
+  document.getElementById("modalTotal").textContent = total;
+  document.getElementById("modalKnown").textContent = known;
+  document.getElementById("modalUnknown").textContent = unknown;
+  document.getElementById("modalTime").textContent = formatTime(ms);
+  document.getElementById("summaryModal").style.display = "flex";
+}
+function hideSummary(){
+  document.getElementById("summaryModal").style.display = "none";
 }
 
 function respond(kind){
@@ -127,7 +137,12 @@ function respond(kind){
     idx = 0;
     side = "front";
     render();
-    showToast("Список закончен");
+    const total = order.length;
+    const known = verdict.filter(v => v === "known").length;
+    const unknown = verdict.filter(v => v === "unknown").length;
+    const elapsed = Date.now() - startTime;
+    showSummary(total, known, unknown, elapsed);
+    startTime = Date.now();
   } else {
     go(1);
   }
@@ -143,13 +158,13 @@ document.getElementById("btnKnow").addEventListener("click", () => respond("know
 document.getElementById("btnDontKnow").addEventListener("click", () => respond("unknown"));
 document.getElementById("btnReset").addEventListener("click", resetStats);
 document.getElementById("btnShuffle").addEventListener("click", shuffle);
-document.getElementById("toggleBrowse").addEventListener("change", render);
 document.getElementById("toggleReverse").addEventListener("change", render);
 document.getElementById("fontInc").addEventListener("click", () => applyFontStep(fontIndex + 1));
 document.getElementById("fontDec").addEventListener("click", () => applyFontStep(fontIndex - 1));
 document.getElementById("fontReset").addEventListener("click", () => applyFontStep(1));
 const btnHome = document.getElementById("btnHome");
 if(btnHome) btnHome.addEventListener("click", () => { window.location.href = "index.html"; });
+document.getElementById("modalClose").addEventListener("click", hideSummary);
 
 // Горячие клавиши
 window.addEventListener("keydown", (e) => {
@@ -166,6 +181,7 @@ window.addEventListener("keydown", (e) => {
 // Первичный рендер
 loadFontStep();
 render();
+startTime = Date.now();
 
 }
 window.initFlashcards = initFlashcards;
