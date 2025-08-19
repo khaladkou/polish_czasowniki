@@ -155,78 +155,93 @@
 <script>
 /** ========================
  *  ДАННЫЕ КАРТОЧЕК (редактируйте)
- *  Каждая карточка: { front: "PL", back: "RU\\nPrzykład: ..." }
+ *  Каждая карточка: { front: "PL — RU", back: "Przykład: ..." }
  *  ======================== */
 
 const CARDS = [
-  {
-    "front": "Ja — я",
-    "back": "mnie — меня\nPrzykład: Nie ma mnie w domu.\nmi — мне\nPrzykład: Daj mi książkę.\nmną — мной\nPrzykład: Idź ze mną."
-  },
-  {
-    "front": "Ty — ты",
-    "back": "ciebie/cię — тебя\nPrzykład: Lubię ciebie.\ntobie/ci — тебе\nPrzykład: Powiem ci prawdę.\ntobą — тобой\nPrzykład: Idę z tobą."
-  },
-  {
-    "front": "On — он",
-    "back": "jego/go/niego — его\nPrzykład: Widzę go na ulicy.\njemu/mu — ему\nPrzykład: Pomogę mu.\nnim — им\nPrzykład: Rozmawiam z nim."
-  },
-  {
-    "front": "Ona — она",
-    "back": "jej/niej — её\nPrzykład: Znam jej brata.\njej/niej — ей\nPrzykład: Pomagam jej.\nnią — ею\nPrzykład: Jestem z nią."
-  },
-  {
-    "front": "Ono — оно",
-    "back": "je/nie — его (оно)\nPrzykład: Widzę je.\nmu/niemu — ему (оно)\nPrzykład: Daj mu zabawkę.\nnim — им (оно)\nPrzykład: Bawi się nim."
-  },
-  {
-    "front": "My — мы",
-    "back": "nas — нас\nPrzykład: Oni widzą nas.\nnam — нам\nPrzykład: Powiedz nam historię.\nnami — нами\nPrzykład: Idź z nami."
-  },
-  {
-    "front": "Wy — вы",
-    "back": "was — вас\nPrzykład: Słyszę was.\nwam — вам\nPrzykład: Pomogę wam.\nwami — вами\nPrzykład: Rozmawiam z wami."
-  },
-  {
-    "front": "Oni/One — они",
-    "back": "ich/nie — их\nPrzykład: Znam ich dobrze.\nim/nim — им\nPrzykład: Pomogę im.\nnimi — ими\nPrzykład: Idę z nimi."
-  },
-  {
-    "front": "Siebie — себя",
-    "back": "siebie — себя\nPrzykład: Nie widzę siebie w lustrze.\nsobie — себе\nPrzykład: Kupiłem sobie prezent.\nsobą — собой\nPrzykład: Jestem z sobą szczęśliwy."
-  },
-  {
-    "front": "Mój — мой",
-    "back": "mój — мой\nPrzykład: To jest mój dom.\nmojego — моего\nPrzykład: Lubię mojego psa.\nmojemu — моему\nPrzykład: Pomagam mojemu bratu.\nmoim — моим\nPrzykład: Idę z moim kolegą."
-  },
-  {
-    "front": "Twój — твой",
-    "back": "twój — твой\nPrzykład: To jest twój samochód.\ntwojego — твоего\nPrzykład: Widzę twojego ojca.\ntwojemu — твоему\nPrzykład: Pomogę twojemu dzieckу.\ntwoim — твоим\nPrzykład: Idę z twoim bratem."
-  },
-  {
-    "front": "Jego — его",
-    "back": "jego — его (не изменяется)\nPrzykład: To jest jego książka."
-  },
-  {
-    "front": "Jej — её",
-    "back": "jej — её (не изменяется)\nPrzykład: To jest jej kot."
-  },
-  {
-    "front": "Nasz — наш",
-    "back": "nasz — наш\nPrzykład: To jest nasz ogród.\nnaszego — нашего\nPrzykład: Kocham нашего psa.\nnaszemu — нашему\nPrzykład: Помогę naszemu dzieckу.\nnaszym — нашим\nPrzykład: Idę z naszym kolegą."
-  },
-  {
-    "front": "Wasz — ваш",
-    "back": "wasz — ваш\nPrzykład: To jest wasz pokój.\nwaszego — вашего\nPrzykład: Widzę waszego tatę.\nwaszemu — вашему\nPrzykład: Помогę waszemu dzieckу.\nwaszym — вашим\nPrzykład: Idę z waszym przyjacielem."
-  },
-  {
-    "front": "Ich — их",
-    "back": "ich — их (не изменяется)\nPrzykład: To jest ich dom."
-  },
-  {
-    "front": "Swój — свой",
-    "back": "swój — свой\nPrzykład: Każdy kocha swój kraj.\nswojego — своего\nPrzykład: Znalazłem swojego kota.\nswojemu — своему\nPrzykład: Pomogę swojemu dzieckу.\nswoim — своим\nPrzykład: Jestem ze swoim przyjacielem."
-  }
+  { front: "Ja — я", back: "" },
+  { front: "mnie — меня", back: "Przykład: Nie ma mnie w domu." },
+  { front: "mi — мне", back: "Przykład: Daj mi książkę." },
+  { front: "mną — мной", back: "Przykład: Idź ze mną." },
+
+  { front: "Ty — ты", back: "" },
+  { front: "ciebie/cię — тебя", back: "Przykład: Lubię ciebie." },
+  { front: "tobie/ci — тебе", back: "Przykład: Powiem ci prawdę." },
+  { front: "tobą — тобой", back: "Przykład: Idę z tobą." },
+
+  { front: "On — он", back: "" },
+  { front: "jego/go/niego — его", back: "Przykład: Widzę go na ulicy." },
+  { front: "jemu/mu — ему", back: "Przykład: Pomogę mu." },
+  { front: "nim — им", back: "Przykład: Rozmawiam z nim." },
+
+  { front: "Ona — она", back: "" },
+  { front: "jej/niej — её", back: "Przykład: Znam jej brata." },
+  { front: "jej/niej — ей", back: "Przykład: Pomagam jej." },
+  { front: "nią — ею", back: "Przykład: Jestem z nią." },
+
+  { front: "Ono — оно", back: "" },
+  { front: "je/nie — jego (оно)", back: "Przykład: Widzę je." },
+  { front: "mu/niemu — ему (оно)", back: "Przykład: Daj mu zabawkę." },
+  { front: "nim — им (оно)", back: "Przykład: Bawi się nim." },
+
+  { front: "My — мы", back: "" },
+  { front: "nas — нас", back: "Przykład: Oni widzą nas." },
+  { front: "nam — нам", back: "Przykład: Powiedz nam historię." },
+  { front: "nami — нами", back: "Przykład: Idź z nami." },
+
+  { front: "Wy — вы", back: "" },
+  { front: "was — вас", back: "Przykład: Słyszę was." },
+  { front: "wam — вам", back: "Przykład: Pomogę wam." },
+  { front: "wami — вами", back: "Przykład: Rozmawiam z wami." },
+
+  { front: "Oni/One — они", back: "" },
+  { front: "ich/nie — их", back: "Przykład: Znam ich dobrze." },
+  { front: "im/nim — им", back: "Przykład: Pomogę im." },
+  { front: "nimi — ими", back: "Przykład: Idę z nimi." },
+
+  { front: "Siebie — себя", back: "" },
+  { front: "siebie — себя", back: "Przykład: Nie widzę siebie w lustrze." },
+  { front: "sobie — себе", back: "Przykład: Kupiłem sobie prezent." },
+  { front: "sobą — собой", back: "Przykład: Jestem z sobą szczęśliwy." },
+
+  { front: "Mój — мой", back: "" },
+  { front: "mój — мой", back: "Przykład: To jest mój dom." },
+  { front: "mojego — моего", back: "Przykład: Lubię mojego psa." },
+  { front: "mojemu — моему", back: "Przykład: Pomagam mojemu bratu." },
+  { front: "moim — моим", back: "Przykład: Idę z moim kolegą." },
+
+  { front: "Twój — твой", back: "" },
+  { front: "twój — твой", back: "Przykład: To jest twój samochód." },
+  { front: "twojego — твоего", back: "Przykład: Widzę twojego ojca." },
+  { front: "twojemu — твоему", back: "Przykład: Pomogę twojemu dziecku." },
+  { front: "twoim — твоим", back: "Przykład: Idę z twoim bratem." },
+
+  { front: "Jego — jego", back: "" },
+  { front: "jego — jego (не изменяется)", back: "Przykład: To jest jego książka." },
+
+  { front: "Jej — её", back: "" },
+  { front: "jej — её (не изменяется)", back: "Przykład: To jest jej kot." },
+
+  { front: "Nasz — наш", back: "" },
+  { front: "nasz — наш", back: "Przykład: To jest nasz ogród." },
+  { front: "naszego — нашего", back: "Przykład: Kocham naszego psa." },
+  { front: "naszemu — нашему", back: "Przykład: Pomogę naszemu dziecku." },
+  { front: "naszym — нашим", back: "Przykład: Idę z naszym kolegą." },
+
+  { front: "Wasz — ваш", back: "" },
+  { front: "wasz — ваш", back: "Przykład: To jest wasz pokój." },
+  { front: "waszego — вашего", back: "Przykład: Widzę waszego tatę." },
+  { front: "waszemu — вашему", back: "Przykład: Pomogę waszemu dzieckу." },
+  { front: "waszym — вашим", back: "Przykład: Idę z waszym przyjacielem." },
+
+  { front: "Ich — их", back: "" },
+  { front: "ich — их (не изменяется)", back: "Przykład: To jest ich dom." },
+
+  { front: "Swój — свой", back: "" },
+  { front: "swój — свой", back: "Przykład: Każdy kocha swój kraj." },
+  { front: "swojego — своего", back: "Przykład: Znalazłem swojego kota." },
+  { front: "swojemu — своему", back: "Przykład: Pomogę swojemu dziecku." },
+  { front: "swoim — своим", back: "Przykład: Jestem ze swoim przyjacielem." }
 ];
 
 
