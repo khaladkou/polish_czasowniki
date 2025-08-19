@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Карточки — Польские местоимения</title>
+<style>
+  :root {
+    --bg: #0e1721;
+    --panel: #132433;
+    --card: #162e40;
+    --text: #f2f7f8;
+    --muted: #a9c1cb;
+    --accent: #45c59f;
+    --danger: #f05d5e;
+    --ghost: #1a3a4d;
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --radius: 16px;
+    --fs-front: 32px;
+    --fs-back: 20px;
+    --fs-micro: 12px;
+    --fs-small: 14px;
+  }
+  html, body {
+    height: 100%; margin: 0;
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 12px 12px 18px; display: grid; gap: 12px; }
+  header {
+    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px;
+    background: var(--panel); padding: 12px 14px; border-radius: var(--radius); box-shadow: var(--shadow);
+  }
+  header .stats { display: flex; gap: 14px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--muted); }
+  header .stats b { color: var(--text); }
+  header .toggles { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-small); user-select: none; cursor: pointer; }
+  .switch input { appearance: none; width: 48px; height: 28px; background: #224a5d; border-radius: 999px; position: relative; outline: none; transition: 0.2s; }
+  .switch input:checked { background: #2e7d5b; }
+  .switch input::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: 0.2s; }
+  .switch input:checked::after { left: 23px; }
+
+  .card {
+    background: radial-gradient(1000px 700px at 60% 40%, var(--card), #0b1e2a 70%);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 28px 18px; min-height: 280px; display: grid; align-content: center; gap: 12px; text-align: center;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+  /* Removed side labels per request */
+  .front { font-size: var(--fs-front); font-weight: 700; line-height: 1.15; word-break: break-word; }
+  .back { font-size: var(--fs-back); line-height: 1.4; white-space: pre-line; word-break: break-word; display:none; }
+  .muted { color: var(--muted); font-size: var(--fs-small); }
+  .controls { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row.equal > button { flex: 1 1 0; }
+  button {
+    appearance: none; border: none; border-radius: 14px;
+    padding: 14px 16px; min-height: 48px; min-width: 44px;
+    font-weight: 700; cursor: pointer; box-shadow: var(--shadow);
+    background: #245a73; color: var(--text); transition: transform .06s ease, background .2s ease;
+    touch-action: manipulation;
+  }
+  button:hover { transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+  .primary { background: #2a7f9c; }
+  .success { background: #2e7d5b; }
+  .danger { background: #9b2f2f; }
+  .ghost { background: var(--ghost); }
+  .pill { border-radius: 999px; }
+  .seg { display: inline-flex; border-radius: 999px; overflow: hidden; box-shadow: var(--shadow); }
+  .seg button { background: var(--ghost); border-radius: 0; }
+  .seg button + button { border-left: 1px solid rgba(255,255,255,0.08); }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: none;
+    z-index: 1000;
+  }
+
+  footer { color: var(--muted); font-size: var(--fs-micro); text-align: center; padding: 6px; }
+  @media (min-width: 700px) {
+    .controls { grid-template-columns: 1fr 1fr 1fr; }
+    .controls > .row:nth-child(1) { grid-column: 1 / -1; } /* arrows row spans full width */
+  }
+  @media (max-width: 820px) {
+    header { grid-template-columns: 1fr; align-items: start; }
+  }
+  @media (max-width: 640px) {
+    .card { min-height: 240px; }
+    .wrap { padding: 8px 8px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="stats">
+      <div>Карточка: <b id="statIndex">—</b> / <b id="statTotal">—</b></div>
+      <div>Знаю: <b id="statKnown">0</b></div>
+      <div>Не знаю: <b id="statUnknown">0</b></div>
+      <div class="muted">Режим: <b id="modeText">Обычный</b></div>
+    </div>
+    <div class="toggles">
+      <label class="switch"><input id="toggleBrowse" type="checkbox"><span>Пролистывание</span></label>
+      <div class="seg" aria-label="Размер шрифта">
+        <button id="fontDec" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
+        <button id="fontReset" title="Сбросить" aria-label="Сбросить размер">A</button>
+        <button id="fontInc" title="Увеличить шрифт" aria-label="Увеличить шрифт">A+</button>
+      </div>
+    </div>
+    <div class="toggles">
+      <button class="ghost pill" id="btnShuffle" title="Перемешать карточки">Перемешать</button>
+      <button class="ghost pill" id="btnReset" title="Сбросить оценки">Сброс статистики</button>
+    </div>
+  </header>
+
+  <section class="card" id="card">
+    <!-- Removed side label per request -->
+    <div class="front" id="frontText">—</div>
+    <div class="back" id="backText">—</div>
+  </section>
+
+  <nav class="controls" aria-label="Управление карточками">
+    <!-- Arrows row: two same-size buttons with icons only -->
+    <div class="row equal">
+      <button id="btnPrev" title="Назад (←)" aria-label="Назад">←</button>
+      <button id="btnNext" title="Вперёд (→)" aria-label="Вперёд">→</button>
+    </div>
+    <!-- Know/Don't know row: equal-sized buttons -->
+    <div class="row equal">
+      <button class="success" id="btnKnow" title="Отметить как Знаю (K)" aria-label="Знаю">Знаю</button>
+      <button class="danger" id="btnDontKnow" title="Отметить как Не знаю (N)" aria-label="Не знаю">Не знаю</button>
+    </div>
+    <div class="row" style="justify-content:center">
+      <span class="muted">Горячие клавиши: ← → навигация, Пробел — flip, K — знаю, N — не знаю, R — сброс</span>
+    </div>
+  </nav>
+
+  <footer>Данные карточек — внизу файла (массив CARDS). Цветовая схема — высококонтрастная, без «жёсткого» белого, для комфортного запоминания.</footer>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/** ========================
+ *  ДАННЫЕ КАРТОЧЕК (редактируйте)
+ *  Каждая карточка: { front: "PL — RU", back: "Przykład: ..." }
+ *  ======================== */
+
+const CARDS = [
+  { front: "Ja — я", back: "" },
+  { front: "mnie — меня", back: "Przykład: Nie ma mnie w domu." },
+  { front: "mi — мне", back: "Przykład: Daj mi książkę." },
+  { front: "mną — мной", back: "Przykład: Idź ze mną." },
+
+  { front: "Ty — ты", back: "" },
+  { front: "ciebie/cię — тебя", back: "Przykład: Lubię ciebie." },
+  { front: "tobie/ci — тебе", back: "Przykład: Powiem ci prawdę." },
+  { front: "tobą — тобой", back: "Przykład: Idę z tobą." },
+
+  { front: "On — он", back: "" },
+  { front: "jego/go/niego — его", back: "Przykład: Widzę go na ulicy." },
+  { front: "jemu/mu — ему", back: "Przykład: Pomogę mu." },
+  { front: "nim — им", back: "Przykład: Rozmawiam z nim." },
+
+  { front: "Ona — она", back: "" },
+  { front: "jej/niej — её", back: "Przykład: Znam jej brata." },
+  { front: "jej/niej — ей", back: "Przykład: Pomagam jej." },
+  { front: "nią — ею", back: "Przykład: Jestem z nią." },
+
+  { front: "Ono — оно", back: "" },
+  { front: "je/nie — jego (оно)", back: "Przykład: Widzę je." },
+  { front: "mu/niemu — ему (оно)", back: "Przykład: Daj mu zabawkę." },
+  { front: "nim — им (оно)", back: "Przykład: Bawi się nim." },
+
+  { front: "My — мы", back: "" },
+  { front: "nas — нас", back: "Przykład: Oni widzą nas." },
+  { front: "nam — нам", back: "Przykład: Powiedz nam historię." },
+  { front: "nami — нами", back: "Przykład: Idź z nami." },
+
+  { front: "Wy — вы", back: "" },
+  { front: "was — вас", back: "Przykład: Słyszę was." },
+  { front: "wam — вам", back: "Przykład: Pomogę wam." },
+  { front: "wami — вами", back: "Przykład: Rozmawiam z wami." },
+
+  { front: "Oni/One — они", back: "" },
+  { front: "ich/nie — их", back: "Przykład: Znam ich dobrze." },
+  { front: "im/nim — им", back: "Przykład: Pomogę im." },
+  { front: "nimi — ими", back: "Przykład: Idę z nimi." },
+
+  { front: "Siebie — себя", back: "" },
+  { front: "siebie — себя", back: "Przykład: Nie widzę siebie w lustrze." },
+  { front: "sobie — себе", back: "Przykład: Kupiłem sobie prezent." },
+  { front: "sobą — собой", back: "Przykład: Jestem z sobą szczęśliwy." },
+
+  { front: "Mój — мой", back: "" },
+  { front: "mój — мой", back: "Przykład: To jest mój dom." },
+  { front: "mojego — моего", back: "Przykład: Lubię mojego psa." },
+  { front: "mojemu — моему", back: "Przykład: Pomagam mojemu bratu." },
+  { front: "moim — моим", back: "Przykład: Idę z moim kolegą." },
+
+  { front: "Twój — твой", back: "" },
+  { front: "twój — твой", back: "Przykład: To jest twój samochód." },
+  { front: "twojego — твоего", back: "Przykład: Widzę twojego ojca." },
+  { front: "twojemu — твоему", back: "Przykład: Pomogę twojemu dziecku." },
+  { front: "twoim — твоим", back: "Przykład: Idę z twoim bratem." },
+
+  { front: "Jego — jego", back: "" },
+  { front: "jego — jego (не изменяется)", back: "Przykład: To jest jego książka." },
+
+  { front: "Jej — её", back: "" },
+  { front: "jej — её (не изменяется)", back: "Przykład: To jest jej kot." },
+
+  { front: "Nasz — наш", back: "" },
+  { front: "nasz — наш", back: "Przykład: To jest nasz ogród." },
+  { front: "naszego — нашего", back: "Przykład: Kocham naszego psa." },
+  { front: "naszemu — нашему", back: "Przykład: Pomogę naszemu dziecku." },
+  { front: "naszym — нашим", back: "Przykład: Idę z naszym kolegą." },
+
+  { front: "Wasz — ваш", back: "" },
+  { front: "wasz — ваш", back: "Przykład: To jest wasz pokój." },
+  { front: "waszego — вашего", back: "Przykład: Widzę waszego tatę." },
+  { front: "waszemu — вашему", back: "Przykład: Pomogę waszemu dzieckу." },
+  { front: "waszym — вашим", back: "Przykład: Idę z waszym przyjacielem." },
+
+  { front: "Ich — их", back: "" },
+  { front: "ich — их (не изменяется)", back: "Przykład: To jest ich dom." },
+
+  { front: "Swój — свой", back: "" },
+  { front: "swój — свой", back: "Przykład: Każdy kocha swój kraj." },
+  { front: "swojego — своего", back: "Przykład: Znalazłem swojego kota." },
+  { front: "swojemu — своему", back: "Przykład: Pomogę swojemu dziecku." },
+  { front: "swoim — своим", back: "Przykład: Jestem ze swoim przyjacielem." }
+];
+
+
+/** ========================
+ *  СОСТОЯНИЕ
+ *  ======================== */
+let order = CARDS.map((_, i) => i);
+let idx = 0;
+let side = "front";
+const verdict = new Array(CARDS.length).fill(null);
+
+/** ========================
+ *  ШРИФТ — управление и сохранение
+ *  ======================== */
+const FONT_KEY = "flashcards_font_scale_v1";
+const FONT_STEPS = Array.from({length: 12}, (_, i) => ({
+  front: `${28 + i*4}px`,
+  back: `${18 + i*2}px`
+}));
+let fontIndex = 1;
+function applyFontStep(i){
+  fontIndex = Math.max(0, Math.min(FONT_STEPS.length-1, i));
+  const step = FONT_STEPS[fontIndex];
+  document.documentElement.style.setProperty("--fs-front", step.front);
+  document.documentElement.style.setProperty("--fs-back", step.back);
+  localStorage.setItem(FONT_KEY, String(fontIndex));
+}
+function loadFontStep(){
+  const saved = localStorage.getItem(FONT_KEY);
+  if(saved !== null){
+    const i = parseInt(saved, 10);
+    if(!Number.isNaN(i)) applyFontStep(i); else applyFontStep(fontIndex);
+  } else applyFontStep(fontIndex);
+}
+
+/** ========================
+ *  УТИЛИТЫ И ОТРИСОВКА
+ *  ======================== */
+function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+function recountStats(){
+  const known = verdict.filter(v => v === "known").length;
+  const unknown = verdict.filter(v => v === "unknown").length;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statUnknown").textContent = unknown;
+  document.getElementById("statIndex").textContent = (order.length ? (idx+1) : 0);
+  document.getElementById("statTotal").textContent = order.length;
+}
+function render(){
+  const frontText = document.getElementById("frontText");
+  const backText = document.getElementById("backText");
+  const modeText = document.getElementById("modeText");
+  const browse = document.getElementById("toggleBrowse").checked;
+  modeText.textContent = browse ? "Пролистывание" : "Обычный";
+
+  if(order.length === 0){
+    frontText.textContent = "Нет карточек";
+    backText.style.display = "none";
+    recountStats();
+    return;
+  }
+  const card = CARDS[ order[idx] ];
+  // Всегда показываем фронт при входе в карточку
+  side = "front";
+  frontText.textContent = card.front;
+  backText.textContent = card.back;
+
+  if(browse){
+    backText.style.display = "none";
+  } else {
+    backText.style.display = (side === "back") ? "block" : "none";
+  }
+  recountStats();
+}
+function flip(){
+  if(document.getElementById("toggleBrowse").checked) return;
+  side = (side === "front") ? "back" : "front";
+  const backText = document.getElementById("backText");
+  if(side === "back"){ backText.style.display = "block"; }
+  else { backText.style.display = "none"; }
+}
+function go(delta){
+  idx = clamp(idx + delta, 0, order.length - 1);
+  side = "front";
+  render();
+}
+function setVerdict(kind){
+  const i = order[idx];
+  const current = verdict[i];
+  verdict[i] = (current === kind) ? null : kind;
+  recountStats();
+}
+function resetStats(){
+  for(let i=0;i<verdict.length;i++) verdict[i] = null;
+  recountStats();
+}
+function shuffle(){
+  for(let i = order.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  idx = 0; side = "front";
+  render();
+}
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => { t.style.display = "none"; }, 2000);
+}
+
+function respond(kind){
+  setVerdict(kind);
+  if(idx >= order.length - 1){
+    idx = 0;
+    side = "front";
+    render();
+    showToast("Список закончен");
+  } else {
+    go(1);
+  }
+}
+
+/** ========================
+ *  СВЯЗЬ С UI
+ *  ======================== */
+document.getElementById("btnPrev").addEventListener("click", () => go(-1));
+document.getElementById("btnNext").addEventListener("click", () => go(1));
+document.getElementById("card").addEventListener("click", flip);
+document.getElementById("btnKnow").addEventListener("click", () => respond("known"));
+document.getElementById("btnDontKnow").addEventListener("click", () => respond("unknown"));
+document.getElementById("btnReset").addEventListener("click", resetStats);
+document.getElementById("btnShuffle").addEventListener("click", shuffle);
+document.getElementById("toggleBrowse").addEventListener("change", render);
+document.getElementById("fontInc").addEventListener("click", () => applyFontStep(fontIndex + 1));
+document.getElementById("fontDec").addEventListener("click", () => applyFontStep(fontIndex - 1));
+document.getElementById("fontReset").addEventListener("click", () => applyFontStep(1));
+
+// Горячие клавиши
+window.addEventListener("keydown", (e) => {
+  const tag = (e.target && e.target.tagName || "").toLowerCase();
+  if(tag === "input" || tag === "textarea" || e.ctrlKey || e.metaKey || e.altKey) return;
+  if(e.key === "ArrowLeft"){ e.preventDefault(); go(-1); }
+  else if(e.key === "ArrowRight"){ e.preventDefault(); go(1); }
+  else if(e.key === " "){ e.preventDefault(); flip(); }
+  else if(e.key.toLowerCase() === "k"){ e.preventDefault(); respond("known"); }
+  else if(e.key.toLowerCase() === "n"){ e.preventDefault(); respond("unknown"); }
+  else if(e.key.toLowerCase() === "r"){ e.preventDefault(); resetStats(); }
+});
+
+// Первичный рендер
+loadFontStep();
+render();
+</script>
+</body>
+</html>
