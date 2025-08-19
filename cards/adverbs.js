@@ -50,4 +50,3 @@ const CARDS = [
   { front: "od niedawna", back: "недавно\nPrzykład: Mieszkam tu od niedawna.", hint: "" },
   { front: "w dodatku", back: "вдобавок, к тому же\nPrzykład: Było zimno, a w dodatku padał deszcz.", hint: "" },
 ];
-export default CARDS;

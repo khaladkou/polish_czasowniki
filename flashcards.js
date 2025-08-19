@@ -1,4 +1,4 @@
-export default function initFlashcards(cards){
+function initFlashcards(cards){
   const CARDS = cards;
 /** ========================
  *  СОСТОЯНИЕ
@@ -164,3 +164,4 @@ loadFontStep();
 render();
 
 }
+window.initFlashcards = initFlashcards;

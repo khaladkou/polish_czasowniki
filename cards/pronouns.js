@@ -83,4 +83,3 @@ const CARDS = [
   { front: "swojemu — своему", back: "Przykład: Pomogę swojemu dziecku.", hint: "" },
   { front: "swoim — своим", back: "Przykład: Jestem ze swoim przyjacielem.", hint: "" }
 ];
-export default CARDS;
