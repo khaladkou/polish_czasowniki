@@ -45,6 +45,13 @@ const timeLabels = { present: 'Настоящее', past: 'Прошедшее', 
 const personLabels = { ja_m:'я (муж.)', ja_f:'я (жен.)', ty_m:'ты (муж.)', ty_f:'ты (жен.)', on:'он', ona:'она', ono:'оно', my_m:'мы (муж.)', my_f:'мы (жен.)', wy_m:'вы (муж.)', wy_f:'вы (жен.)', oni:'они (муж.)', one:'они (жен.)' };
 const pronounPlLabels = { ja_m:'ja', ja_f:'ja', ty_m:'ty', ty_f:'ty', on:'on', ona:'ona', ono:'ono', my_m:'my', my_f:'my', wy_m:'wy', wy_f:'wy', oni:'oni', one:'one' };
 
+function isValidForm(form){
+  if (!form) return false;
+  const val = v => typeof v === 'string' ? v.trim() : '';
+  const invalid = ['-', '—', ''];
+  return !invalid.includes(val(form.pl)) && !invalid.includes(val(form.ru));
+}
+
 const app = document.getElementById('app');
 
 let state = {
@@ -114,7 +121,7 @@ function renderSet(){
           <tr>
             ${PERSONS.map(p => {
       const f = verb.forms[time]?.[p];
-      return `<td>${f ? `<b>${f.pl}</b><br><small style="color:#64748b;">${f.ru}</small>` : '-'}</td>`;
+      return `<td>${isValidForm(f) ? `<b>${f.pl}</b><br><small style="color:#64748b;">${f.ru}</small>` : '-'}</td>`;
     }).join('')}
           </tr>
         </table>
@@ -140,7 +147,7 @@ function startPractice(set){
     TIMES.forEach(time => {
       PERSONS.forEach(person => {
         const form = verb.forms[time]?.[person];
-        if (form) queue.push({ vi, time, person });
+        if (isValidForm(form)) queue.push({ vi, time, person });
       });
     });
   });
