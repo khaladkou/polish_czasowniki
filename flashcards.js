@@ -50,6 +50,7 @@ function render(){
   const hintText = document.getElementById("hintText");
   const modeText = document.getElementById("modeText");
   const browse = document.getElementById("toggleBrowse").checked;
+  const reverse = document.getElementById("toggleReverse").checked;
   modeText.textContent = browse ? "Пролистывание" : "Обычный";
 
   if(order.length === 0){
@@ -62,8 +63,10 @@ function render(){
   const card = CARDS[ order[idx] ];
   // Всегда показываем фронт при входе в карточку
   side = "front";
-  frontText.textContent = card.front;
-  backText.textContent = card.back;
+  const frontContent = reverse ? card.back : card.front;
+  const backContent  = reverse ? card.front : card.back;
+  frontText.textContent = frontContent;
+  backText.textContent = backContent;
   hintText.textContent = card.hint || "";
 
   if(browse){
@@ -141,6 +144,7 @@ document.getElementById("btnDontKnow").addEventListener("click", () => respond("
 document.getElementById("btnReset").addEventListener("click", resetStats);
 document.getElementById("btnShuffle").addEventListener("click", shuffle);
 document.getElementById("toggleBrowse").addEventListener("change", render);
+document.getElementById("toggleReverse").addEventListener("change", render);
 document.getElementById("fontInc").addEventListener("click", () => applyFontStep(fontIndex + 1));
 document.getElementById("fontDec").addEventListener("click", () => applyFontStep(fontIndex - 1));
 document.getElementById("fontReset").addEventListener("click", () => applyFontStep(1));

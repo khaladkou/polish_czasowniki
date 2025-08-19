@@ -89,7 +89,6 @@
     z-index: 1000;
   }
 
-  footer { color: var(--muted); font-size: var(--fs-micro); text-align: center; padding: 6px; }
   @media (min-width: 700px) {
     .controls { grid-template-columns: 1fr 1fr 1fr; }
     .controls > .row:nth-child(1) { grid-column: 1 / -1; } /* arrows row spans full width */
@@ -113,6 +112,7 @@
       <div class="muted">Режим: <b id="modeText">Обычный</b></div>
     </div>
     <div class="toggles">
+      <label class="switch"><input id="toggleReverse" type="checkbox"><span>Перевод первым</span></label>
       <label class="switch"><input id="toggleBrowse" type="checkbox"><span>Пролистывание</span></label>
       <div class="seg" aria-label="Размер шрифта">
         <button id="fontDec" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
@@ -150,7 +150,6 @@
     </div>
   </nav>
 
-  <footer>Данные карточек — в отдельном файле <code>cards/pronouns.js</code>. Цветовая схема — высококонтрастная, без «жёсткого» белого, для комфортного запоминания.</footer>
 </div>
 
 <div id="toast" class="toast"></div>

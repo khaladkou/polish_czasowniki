@@ -92,8 +92,6 @@ function renderMenu(){
         <li><a href="pronouns.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские местоимения</a></li>
       </ul>
     </section>
-    <hr />
-    <small>Добавьте свои подборки в папку <code>/sets</code> и зарегистрируйте их в <code>sets/index.js</code></small>
   `;
 
   app.querySelectorAll('a[data-set]').forEach(link => {
