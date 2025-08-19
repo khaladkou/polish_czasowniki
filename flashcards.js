@@ -47,6 +47,7 @@ function recountStats(){
 function render(){
   const frontText = document.getElementById("frontText");
   const backText = document.getElementById("backText");
+  const hintText = document.getElementById("hintText");
   const modeText = document.getElementById("modeText");
   const browse = document.getElementById("toggleBrowse").checked;
   modeText.textContent = browse ? "Пролистывание" : "Обычный";
@@ -54,6 +55,7 @@ function render(){
   if(order.length === 0){
     frontText.textContent = "Нет карточек";
     backText.style.display = "none";
+    hintText.style.display = "none";
     recountStats();
     return;
   }
@@ -62,11 +64,14 @@ function render(){
   side = "front";
   frontText.textContent = card.front;
   backText.textContent = card.back;
+  hintText.textContent = card.hint || "";
 
   if(browse){
     backText.style.display = "none";
+    hintText.style.display = "none";
   } else {
     backText.style.display = (side === "back") ? "block" : "none";
+    hintText.style.display = "none";
   }
   recountStats();
 }
@@ -74,8 +79,13 @@ function flip(){
   if(document.getElementById("toggleBrowse").checked) return;
   side = (side === "front") ? "back" : "front";
   const backText = document.getElementById("backText");
-  if(side === "back"){ backText.style.display = "block"; }
-  else { backText.style.display = "none"; }
+  const hintText = document.getElementById("hintText");
+  const card = CARDS[ order[idx] ];
+  if(side === "back"){ 
+    backText.style.display = "block";
+    if(card.hint) hintText.style.display = "block"; else hintText.style.display = "none";
+  }
+  else { backText.style.display = "none"; hintText.style.display = "none"; }
 }
 function go(delta){
   idx = clamp(idx + delta, 0, order.length - 1);
@@ -134,6 +144,8 @@ document.getElementById("toggleBrowse").addEventListener("change", render);
 document.getElementById("fontInc").addEventListener("click", () => applyFontStep(fontIndex + 1));
 document.getElementById("fontDec").addEventListener("click", () => applyFontStep(fontIndex - 1));
 document.getElementById("fontReset").addEventListener("click", () => applyFontStep(1));
+const btnHome = document.getElementById("btnHome");
+if(btnHome) btnHome.addEventListener("click", () => { window.location.href = "index.html"; });
 
 // Горячие клавиши
 window.addEventListener("keydown", (e) => {
