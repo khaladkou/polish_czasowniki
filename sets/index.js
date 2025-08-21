@@ -16,6 +16,10 @@ import powrotIStart from './czasowniki_powrot_i_start.js';
 import powiedziecProbowac from './czasowniki_powiedziec_probowac.js';
 import jechacSprobowac from './czasowniki_jechac_sprobowac.js';
 
+// Новые пары (добавлено)
+import dostarczacSprawdzac from './czasowniki_dostarczac_sprawdzac.js';
+import zyczycZanosic from './czasowniki_zyczyc_zanosic.js';
+
 export default [
   bycRobic,
   mocZrobic,
@@ -31,5 +35,7 @@ export default [
   potrzebowacPomagac,
   powrotIStart,
   powiedziecProbowac,
-  jechacSprobowac
+  jechacSprobowac,
+  dostarczacSprawdzac, // ← добавлено
+  zyczycZanosic        // ← добавлено
 ];
