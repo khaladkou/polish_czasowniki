@@ -13,6 +13,8 @@ import znalezcMieszkac from './czasowniki_znalezc_mieszkac.js';
 import lubicKochac from './czasowniki_lubic_kochac.js';
 import potrzebowacPomagac from './czasowniki_potrzebowac_pomagac.js';
 import powrotIStart from './czasowniki_powrot_i_start.js';
+import powiedziecProbowac from './czasowniki_powiedziec_probowac.js';
+import jechacSprobowac from './czasowniki_jechac_sprobowac.js';
 
 export default [
   bycRobic,
@@ -27,5 +29,7 @@ export default [
   znalezcMieszkac,
   lubicKochac,
   potrzebowacPomagac,
-  powrotIStart
+  powrotIStart,
+  powiedziecProbowac,
+  jechacSprobowac
 ];
