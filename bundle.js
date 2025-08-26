@@ -44,6 +44,7 @@ const PERSONS = [
 const timeLabels = { present: 'Настоящее', past: 'Прошедшее', future: 'Будущее' };
 const personLabels = { ja_m:'я (муж.)', ja_f:'я (жен.)', ty_m:'ты (муж.)', ty_f:'ты (жен.)', on:'он', ona:'она', ono:'оно', my_m:'мы (муж.)', my_f:'мы (жен.)', wy_m:'вы (муж.)', wy_f:'вы (жен.)', oni:'они (муж.)', one:'они (жен.)' };
 const pronounPlLabels = { ja_m:'ja', ja_f:'ja', ty_m:'ty', ty_f:'ty', on:'on', ona:'ona', ono:'ono', my_m:'my', my_f:'my', wy_m:'wy', wy_f:'wy', oni:'oni', one:'one' };
+const pronounGenderLabels = { ja_m:'męski', ja_f:'żeński', ty_m:'męski', ty_f:'żeński', my_m:'męski', my_f:'żeński', wy_m:'męski', wy_f:'żeński', oni:'męski', one:'żeński' };
 
 function isValidForm(form){
   if (!form) return false;
@@ -61,7 +62,8 @@ let state = {
   practiceIndex: 0,
   showAnswer: false,
   lastResult: null,
-  stats: []
+  stats: [],
+  lastUserAnswer: null
 };
 
 function render(){
@@ -160,6 +162,7 @@ function startPractice(set){
   state.showAnswer = false;
   state.lastResult = null;
   state.stats = queue.map(item => ({ ...item, attempts: 0, lastWrong: null }));
+  state.lastUserAnswer = null;
   render();
 }
 
@@ -180,6 +183,7 @@ function renderPractice(){
 formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' ').replace(/\s{2,}/g, ' ').trim();
   const pronounRus = capitalize(personLabels[person] || person);
   const pronounPl  = pronounPlLabels[person] || person;
+  const pronounGender = pronounGenderLabels[person];
 
   app.innerHTML = `
     <div class="topbar"><button id="back" class="btn">← К подборке</button></div>
@@ -189,8 +193,8 @@ formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' '
       <div id="card" class="card" role="button" aria-pressed="${state.showAnswer}" tabindex="0">
         ${state.showAnswer
       ? `<div>
-               <div class="label">Ответ (${pronounPl})</div>
-               <div class="answer">${form.pl}</div>
+               <div class="label">Ответ</div>
+               <div class="answer">${capitalize(pronounPl)}${pronounGender ? ` (${pronounGender})` : ''} ${form.pl}</div>
                <div class="tap-hint">Отметьте результат:</div>
              </div>`
       : `<div>
@@ -217,7 +221,11 @@ formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' '
       : ''}
 
       <div id="feedback" class="feedback ${state.lastResult === true ? 'ok' : state.lastResult === false ? 'bad' : ''}">
-        ${state.lastResult === true ? 'Верно!' : state.lastResult === false && !state.showAnswer ? 'Неправильно. Попробуйте ещё или откройте ответ.' : ''}
+        ${state.lastResult === true
+          ? 'Верно!'
+          : state.lastResult === false && state.showAnswer
+            ? `Неправильно. Ваш ответ был: - ${state.lastUserAnswer || ''} Попробуйте ещё или откройте ответ.`
+            : ''}
       </div>
 
       <p style="color:#64748b">Задание ${i+1} из ${queue.length}</p>
@@ -231,18 +239,26 @@ formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' '
   if (formEl){
     formEl.onsubmit = e => {
       e.preventDefault();
-      const userAns = formEl.answer.value.trim().toLowerCase();
+      const userInput = formEl.answer.value.trim();
+      const userAns = userInput.toLowerCase();
       const stat = getCurrentStat();
 
       if (userAns === ""){
-        state.showAnswer = !state.showAnswer; state.lastResult = null; render(); return;
+        state.showAnswer = !state.showAnswer;
+        state.lastResult = null;
+        render();
+        return;
       }
 
-      stat.attempts++; stat.lastWrong = userAns;
+      stat.attempts++;
+      stat.lastWrong = userInput;
       const right = form.pl.toLowerCase().split('/').map(s=>s.trim());
       const isOk = right.some(r => userAns === r);
 
-      state.lastResult = isOk; state.showAnswer = false;
+      state.lastResult = isOk;
+      state.lastUserAnswer = userInput;
+      state.showAnswer = !isOk;
+
       if (isOk) nextCard(); else render();
     };
 
@@ -330,6 +346,7 @@ formRuNoPronoun = formRuNoPronoun.replace(/\s*\((муж\.|жен\.)\)\s*/gi, ' '
       state.screen = 'practice';
       state.showAnswer = false;
       state.lastResult = null;
+      state.lastUserAnswer = null;
       render();
     };
   }
@@ -344,6 +361,7 @@ function getCurrentStat(){
 function nextCard(){
   state.practiceIndex++;
   state.showAnswer = false; // всегда начинаем следующую карточку с вопроса
+  state.lastUserAnswer = null;
   setTimeout(() => { state.lastResult = null; render(); }, 250);
 }
 
