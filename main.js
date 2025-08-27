@@ -97,6 +97,12 @@ function renderMenu(){
         <li><a href="construction.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские строительные термины</a></li>
       </ul>
     </section>
+    <section>
+      <h2>Словарный тренажёр</h2>
+      <ul>
+        <li><a href="words.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Базовые слова</a></li>
+      </ul>
+    </section>
   `;
 
   app.querySelectorAll('a[data-set]').forEach(link => {
