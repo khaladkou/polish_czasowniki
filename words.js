@@ -6,6 +6,10 @@ const decks = {
   common_phrases: {
     title: 'Повседневные фразы',
     src: 'cards/common_phrases.js'
+  },
+  time_phrases: {
+    title: 'Про дни и время фразы',
+    src: 'cards/times.js'
   }
 };
 
