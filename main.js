@@ -101,6 +101,7 @@ function renderMenu(){
       <h2>Словарный тренажёр</h2>
       <ul>
         <li><a href="words.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Базовые слова</a></li>
+        <li><a href="words.html?set=common_phrases" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Повседневные фразы</a></li>
       </ul>
     </section>
   `;
