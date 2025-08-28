@@ -8,10 +8,31 @@ function initWordTrainer(set){
   let lastUserAnswer = null;
   let stats = order.map(i => ({ wi: i, attempts: 0, lastWrong: null }));
   const app = document.getElementById('app');
+  let startTime = Date.now();
+
+  function calcStats(){
+    const total = stats.length;
+    const known = stats.filter(s => s.attempts === 1).length;
+    const unknown = stats.filter(s => s.attempts > 1).length;
+    return { total, known, unknown };
+  }
+
+  function formatTime(ms){
+    const total = Math.floor(ms/1000);
+    const h = Math.floor(total/3600);
+    const m = Math.floor((total%3600)/60);
+    const s = total%60;
+    const parts = [];
+    if(h>0) parts.push(String(h).padStart(2,'0'));
+    parts.push(String(m).padStart(2,'0'));
+    parts.push(String(s).padStart(2,'0'));
+    return parts.join(':');
+  }
 
   function render(){
     if(index >= order.length) return renderResults();
     const word = words[ order[index] ];
+    const { total, known, unknown } = calcStats();
 
     app.innerHTML = `
       <div class="topbar"><button id="back" class="btn">← На главную</button></div>
@@ -35,6 +56,11 @@ function initWordTrainer(set){
           </div>` : ''}
         <div id="feedback" class="feedback ${lastResult === true ? 'ok' : lastResult === false ? 'bad' : ''}">
           ${lastResult === true ? 'Верно!' : lastResult === false && showAnswer ? `Неправильно. Ваш ответ был: - ${lastUserAnswer || ''} Попробуйте ещё или откройте ответ.` : ''}
+        </div>
+        <div style="color:#64748b; display:flex; gap:.5rem; flex-wrap:wrap;">
+          <div>Верно: <b>${known}</b></div>
+          <div>Неправильно: <b>${unknown}</b></div>
+          <div>Всего: <b>${total}</b></div>
         </div>
         <p style="color:#64748b">Задание ${index+1} из ${order.length}</p>
       </div>
@@ -99,15 +125,22 @@ function initWordTrainer(set){
   }
 
   function renderResults(){
+    const { total, known, unknown } = calcStats();
     const errors = stats.filter(s => s.attempts > 1);
     const rows = [...stats].sort((a,b)=> b.attempts - a.attempts).map(s => {
       const w = words[s.wi];
       return `<tr><td>${w.front} – ${w.back}</td><td>${s.lastWrong ? s.lastWrong : '-'}</td><td style="text-align:center;">${s.attempts}</td></tr>`;
     }).join('');
 
+    const elapsed = Date.now() - startTime;
+
     app.innerHTML = `
       <div class="topbar"><button id="back" class="btn">← К началу</button></div>
       <h2>Результаты тренировки</h2>
+      <p>Всего слов: <b>${total}</b></p>
+      <p>Верно: <b>${known}</b></p>
+      <p>Неправильно: <b>${unknown}</b></p>
+      <p>Время: <b>${formatTime(elapsed)}</b></p>
       <table>
         <tr>
           <th>Слово</th>
@@ -136,6 +169,7 @@ function initWordTrainer(set){
         showAnswer = false;
         lastResult = null;
         lastUserAnswer = null;
+        startTime = Date.now();
         render();
       };
     }
@@ -156,6 +190,7 @@ function initWordTrainer(set){
     lastResult = null;
     lastUserAnswer = null;
     stats = order.map(i => ({ wi: i, attempts: 0, lastWrong: null }));
+    startTime = Date.now();
     render();
   }
 

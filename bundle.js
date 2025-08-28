@@ -103,6 +103,7 @@ function renderMenu(){
       <ul>
         <li><a href="words.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Базовые слова</a></li>
         <li><a href="words.html?set=common_phrases" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Повседневные фразы</a></li>
+        <li><a href="words.html?set=time_phrases" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Про дни и время фразы</a></li>
       </ul>
     </section>
   `;
