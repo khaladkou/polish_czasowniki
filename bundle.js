@@ -95,6 +95,7 @@ function renderMenu(){
         <li><a href="pronouns.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские местоимения</a></li>
         <li><a href="kitchen.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские термины кухни</a></li>
         <li><a href="construction.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские строительные термины</a></li>
+        <li><a href="common_phrases.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Повседневные фразы</a></li>
       </ul>
     </section>
     <section>
