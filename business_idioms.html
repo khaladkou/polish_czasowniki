@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Польские бизнес-идиомы — карточки</title>
+    <style>
+        :root{
+            --bg: #f7fafb;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #475569;
+            --primary: #4cc9f0;      /* бирюза: снижает стресс */
+            --primary-600: #3bb9e3;
+            --accent: #ffd166;       /* тёплый жёлтый: удерживает внимание */
+            --accent-600: #f7c548;
+            --ok: #22c55e;
+            --bad: #ef4444;
+            --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+            --radius: 16px;
+            --fs-front: 32px;
+            --fs-back: 20px;
+        }
+
+        @media (prefers-color-scheme: dark){
+            :root{
+                --bg: #0b1220;
+                --card: #111827;
+                --text: #e5e7eb;
+                --muted: #9ca3af;
+                --shadow: 0 10px 30px rgba(0,0,0,.35);
+            }
+        }
+
+        html, body { height: 100%;}
+        body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Inter", "SF Pro", Arial, sans-serif; background: var(--bg); margin: 0; padding: 1.25rem; color: var(--text); }
+
+        #app { max-width: 980px; margin: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(1rem, 3vw, 2rem); }
+
+        h1, h2, h3 { margin: 0 0 .4em; letter-spacing: .2px; }
+        p { color: var(--muted); }
+
+        /* Buttons */
+        button { font-size: 1rem; padding: .6rem 1rem; border-radius: 999px; border: 0; cursor: pointer; transition: transform .06s ease, box-shadow .2s ease, background .2s ease; }
+        button:active { transform: translateY(1px); }
+        .btn { background: #e2e8f0; color: #0f172a; }
+        .btn:hover { filter: brightness(0.98); }
+        .btn-primary { background: var(--primary); color: #062028; box-shadow: 0 6px 16px rgba(76,201,240,.25); }
+        .btn-primary:hover { background: var(--primary-600); }
+        .btn-accent { background: var(--accent); color: #3a2f00; box-shadow: 0 6px 16px rgba(255, 209, 102, .35); }
+        .btn-accent:hover { background: var(--accent-600); }
+        .btn-ok { background: var(--ok); color: #03210e; }
+        .btn-bad { background: var(--bad); color: #2a0b0b; }
+
+        /* Card styles */
+        .card-container { display: flex; justify-content: center; margin: 2rem 0; }
+        .card { 
+            position: relative; 
+            background: linear-gradient(180deg, #fff, #fbfdff); 
+            border: 1px solid #e2e8f0; 
+            border-radius: 20px; 
+            padding: clamp(20px, 4vw, 40px); 
+            box-shadow: var(--shadow); 
+            min-height: 200px; 
+            width: 100%; 
+            max-width: 600px;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .front-text { 
+            font-size: var(--fs-front); 
+            font-weight: 600; 
+            line-height: 1.3; 
+            color: var(--text);
+        }
+
+        .back-text { 
+            font-size: var(--fs-back); 
+            font-weight: 500; 
+            line-height: 1.4; 
+            color: var(--primary);
+        }
+
+        .hint-text {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Controls */
+        .controls { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
+        .nav-controls { display: flex; gap: .5rem; justify-content: center; margin: 1rem 0; }
+        .font-controls { display: flex; gap: .5rem; align-items: center; justify-content: center; margin: 1rem 0; }
+        .stats { text-align: center; margin: 1rem 0; color: var(--muted); }
+
+        /* Modal */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.7); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000;
+        }
+        .modal-content { 
+            background: var(--card); 
+            padding: 2rem; 
+            border-radius: var(--radius); 
+            max-width: 400px; 
+            text-align: center;
+        }
+
+        /* Settings */
+        .settings { margin: 1rem 0; padding: 1rem; background: #f8fafc; border-radius: 12px; }
+
+        @media (max-width: 640px){
+            body { padding: .75rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1>Польские бизнес-идиомы</h1>
+        <button id="btnHome" class="btn">← На главную</button>
+    </div>
+    <p>Изучение польских бизнес-идиом и выражений с помощью карточек</p>
+
+    <div class="card-container">
+        <div id="card" class="card" tabindex="0">
+            <div id="frontText" class="front-text"></div>
+            <div id="backText" class="back-text" style="display: none;"></div>
+            <div id="hintText" class="hint-text" style="display: none;"></div>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button id="btnPrev" class="btn">← Предыдущая</button>
+        <button id="btnNext" class="btn">Следующая →</button>
+    </div>
+
+    <div class="controls">
+        <button id="btnKnow" class="btn-ok">👍 Знаю</button>
+        <button id="btnDontKnow" class="btn-bad">👎 Не знаю</button>
+    </div>
+
+    <div class="stats">
+        Знаю: <span id="statKnown">0</span> | Не знаю: <span id="statUnknown">0</span> | 
+        <span id="statIndex">1</span> из <span id="statTotal">0</span>
+    </div>
+
+    <div class="settings">
+        <div class="font-controls">
+            <button id="fontDec" class="btn">A-</button>
+            <span>Размер шрифта</span>
+            <button id="fontInc" class="btn">A+</button>
+            <button id="fontReset" class="btn">Сброс</button>
+        </div>
+        <div style="margin-top: 1rem;">
+            <label><input type="checkbox" id="toggleReverse"> Обратный порядок (польский → русский)</label>
+        </div>
+        <div style="margin-top: 1rem; text-align: center;">
+            <button id="btnReset" class="btn">Сбросить статистику</button>
+            <button id="btnShuffle" class="btn-accent">Перемешать</button>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Modal -->
+<div id="summaryModal" class="modal">
+    <div class="modal-content">
+        <h3>Результат сессии</h3>
+        <p>Всего карточек: <span id="modalTotal">0</span></p>
+        <p>Знаю: <span id="modalKnown">0</span></p>
+        <p>Не знаю: <span id="modalUnknown">0</span></p>
+        <p>Время: <span id="modalTime">00:00</span></p>
+        <button id="modalClose" class="btn-primary">Продолжить</button>
+    </div>
+</div>
+
+<script src="cards/business_idioms.js"></script>
+<script src="flashcards.js"></script>
+<script>
+    initFlashcards(CARDS);
+</script>
+</body>
+</html>

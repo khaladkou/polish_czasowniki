@@ -10,6 +10,10 @@ const decks = {
   time_phrases: {
     title: 'Про дни и время фразы',
     src: 'cards/times.js'
+  },
+  business_idioms: {
+    title: 'Бизнес-идиомы',
+    src: 'cards/business_idioms.js'
   }
 };
 

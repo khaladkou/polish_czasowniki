@@ -95,6 +95,7 @@ function renderMenu(){
         <li><a href="pronouns.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские местоимения</a></li>
         <li><a href="kitchen.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские термины кухни</a></li>
         <li><a href="construction.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские строительные термины</a></li>
+        <li><a href="business_idioms.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Польские бизнес-идиомы</a></li>
         <li><a href="common_phrases.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Повседневные фразы</a></li>
       </ul>
     </section>
@@ -104,6 +105,7 @@ function renderMenu(){
         <li><a href="words.html" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Базовые слова</a></li>
         <li><a href="words.html?set=common_phrases" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Повседневные фразы</a></li>
         <li><a href="words.html?set=time_phrases" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Про дни и время фразы</a></li>
+        <li><a href="words.html?set=business_idioms" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Бизнес-идиомы</a></li>
       </ul>
     </section>
   `;
