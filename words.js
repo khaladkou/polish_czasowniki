@@ -14,6 +14,10 @@ const decks = {
   business_idioms: {
     title: 'Бизнес-идиомы',
     src: 'cards/business_idioms.js'
+  },
+  lem_1: {
+    title: 'Lem 1',
+    src: 'cards/lem_1.js'
   }
 };
 
