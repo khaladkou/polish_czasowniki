@@ -43,6 +43,10 @@ function initWordTrainer(set){
             ? `<div><div class="label">Ответ</div><div class="answer">${word.back}</div><div class="tap-hint">Отметьте результат:</div></div>`
             : `<div><div class="label">Переведите</div><div class="task">${word.front}</div><div class="tap-hint">Нажмите на карточку, чтобы увидеть ответ</div></div>`}
         </div>
+        <div style="display:flex; gap:.5rem; margin:.6rem 0; flex-wrap:wrap;">
+          <button type="button" id="btnPrev" class="btn" title="Назад">←</button>
+          <button type="button" id="btnNext" class="btn" title="Вперёд">→</button>
+        </div>
         <form id="answer-form" autocomplete="off">
           <input id="answer" type="text" placeholder="Польский вариант" ${lastResult === false ? 'style="border:2px solid #ef4444"' : ''} />
           <div style="display:flex; gap:.5rem; margin-top:.6rem; flex-wrap:wrap;">
@@ -104,6 +108,11 @@ function initWordTrainer(set){
       card.onclick = toggle;
       card.onkeypress = (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } };
     }
+
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    if(btnPrev) btnPrev.onclick = () => { prevCard(); };
+    if(btnNext) btnNext.onclick = () => { nextCard(0); };
 
     const btnOk = document.getElementById('btn-correct');
     const btnBad = document.getElementById('btn-wrong');
@@ -175,11 +184,21 @@ function initWordTrainer(set){
     }
   }
 
-  function nextCard(){
+  function nextCard(delay = 250){
+    if(index >= order.length) return;
     index++;
     showAnswer = false;
     lastUserAnswer = null;
-    setTimeout(() => { lastResult = null; render(); }, 250);
+    setTimeout(() => { lastResult = null; render(); }, delay);
+  }
+
+  function prevCard(){
+    if(index <= 0) return;
+    index--;
+    showAnswer = false;
+    lastResult = null;
+    lastUserAnswer = null;
+    render();
   }
 
   function start(){
@@ -202,6 +221,13 @@ function initWordTrainer(set){
   }
 
   function vibrate(ms){ if(navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
+
+  window.addEventListener('keydown', (e) => {
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || e.ctrlKey || e.metaKey || e.altKey) return;
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); prevCard(); }
+    else if(e.key === 'ArrowRight'){ e.preventDefault(); nextCard(0); }
+  });
 
   start();
 }
