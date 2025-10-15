@@ -1,4 +1,8 @@
 const decks = {
+  injury_rehab: {
+    title: 'Травмы и восстановление руки',
+    src: 'cards/injury_rehab.js'
+  },
   basic_words: {
     title: 'Базовые слова',
     src: 'cards/basic_words.js'
@@ -22,7 +26,7 @@ const decks = {
 };
 
 const params = new URLSearchParams(location.search);
-const key = params.get('set') || 'basic_words';
+const key = params.get('set') || 'injury_rehab';
 const deck = decks[key] || decks.basic_words;
 
 const script = document.createElement('script');
