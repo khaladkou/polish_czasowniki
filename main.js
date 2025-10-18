@@ -110,6 +110,12 @@ function renderMenu(){
         <li><a href="words.html?set=lem_1" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Lem 1</a></li>
       </ul>
     </section>
+    <section>
+      <h2>Правила</h2>
+      <ul>
+        <li><a href="rules.html?set=adjectives_comparison" style="font-weight:700; font-size:1.15rem; text-decoration:none; color:inherit;">Степени сравнения прилагательных</a></li>
+      </ul>
+    </section>
   `;
 
   app.querySelectorAll('a[data-set]').forEach(link => {

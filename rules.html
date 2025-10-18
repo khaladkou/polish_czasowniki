@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Правила и тренажёр</title>
+    <style>
+        :root{
+            --bg: #f7fafb;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #475569;
+            --primary: #4cc9f0;
+            --primary-600: #3bb9e3;
+            --accent: #ffd166;
+            --accent-600: #f7c548;
+            --ok: #22c55e;
+            --bad: #ef4444;
+            --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+            --radius: 16px;
+        }
+        @media (prefers-color-scheme: dark){
+            :root{
+                --bg: #0b1220;
+                --card: #111827;
+                --text: #e5e7eb;
+                --muted: #9ca3af;
+                --shadow: 0 10px 30px rgba(0,0,0,.35);
+            }
+        }
+        html, body { height: 100%; }
+        body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Inter", "SF Pro", Arial, sans-serif; background: var(--bg); margin: 0; padding: 1.25rem; color: var(--text); }
+        #app { max-width: 980px; margin: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(1rem, 3vw, 2rem); }
+        h1, h2, h3 { margin: 0 0 .4em; letter-spacing: .2px; }
+        p { color: var(--muted); }
+        button { font-size: 1rem; padding: .6rem 1rem; border-radius: 999px; border: 0; cursor: pointer; transition: transform .06s ease, box-shadow .2s ease, background .2s ease; }
+        button:active { transform: translateY(1px); }
+        .btn { background: #e2e8f0; color: #0f172a; }
+        .btn:hover { filter: brightness(0.98); }
+        .btn-primary { background: var(--primary); color: #062028; box-shadow: 0 6px 16px rgba(76,201,240,.25); }
+        .btn-primary:hover { background: var(--primary-600); }
+        .btn-accent { background: var(--accent); color: #3a2f00; box-shadow: 0 6px 16px rgba(255, 209, 102, .35); }
+        .btn-accent:hover { background: var(--accent-600); }
+        .btn-ok { background: var(--ok); color: #03210e; }
+        .btn-bad { background: var(--bad); color: #2a0b0b; }
+        input[type="text"], input[type="search"], input:not([type]) {
+            width: 100%; box-sizing: border-box; font-size: clamp(1rem, 2.4vw, 1.2rem); padding: .8rem 1rem; border-radius: 12px; border: 1px solid #cbd5e1; outline: none; background: #fff; color: var(--text);
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(76,201,240,.2); }
+        .topbar { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+        .topbar button { padding: .45rem .9rem; }
+        .practice-wrap { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .card { position: relative; background: linear-gradient(180deg, #fff, #fbfdff); border: 1px solid #e2e8f0; border-radius: 20px; padding: clamp(14px, 3.5vw, 24px); box-shadow: var(--shadow); min-height: 160px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; user-select: none; }
+        .card .label { color: var(--muted); font-size: .95rem; margin-bottom: .3rem; }
+        .card .task { font-size: clamp(1.1rem, 3.2vw, 1.6rem); font-weight: 650; }
+        .card .answer { font-size: clamp(1.4rem, 3.8vw, 1.9rem); font-weight: 800; letter-spacing: .3px; }
+        .tap-hint { margin-top: .5rem; font-size: .95rem; color: var(--muted); }
+        .choices { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+        .feedback { min-height: 1.4rem; font-weight: 600; }
+        .feedback.ok { color: var(--ok); }
+        .feedback.bad { color: var(--bad); }
+        table { border-collapse: collapse; width: 100%; overflow: auto; display: block; }
+        th, td { padding: .4rem .6rem; border: 1px solid #e5e7eb; text-align: left; }
+        @media (max-width: 640px){
+            body { padding: .75rem; }
+            .choices { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script src="wordtrainer.js"></script>
+<script src="rules.js"></script>
+</body>
+</html>
